@@ -28,7 +28,7 @@ public class App extends MultiDexApplication {
 
     @Override
     public void onCreate() {
-        PlayerHelper.init();
+        
 	PythonLoader.getInstance().setApplication(this);
         super.onCreate();
         instance = this;
