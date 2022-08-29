@@ -17,6 +17,10 @@
 -keepattributes Signature
 -keepattributes LineNumberTable
 -renamesourcefileattribute SourceFile
+-keep public class com.undcover.freedom.pyramid.** { *; }
+-dontwarn com.undcover.freedom.pyramid.**
+-keep public class com.chaquo.python.** { *; }
+-dontwarn com.chaquo.python.**
 
 # 重新包装所有重命名的包并放在给定的单一包中
 -flattenpackagehierarchy androidx.base
