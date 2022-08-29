@@ -59,6 +59,7 @@ android {
 }
 
 dependencies {
+implementation files('libs\\pyramid.aar')
     api fileTree(dir: "libs", include: ["*.jar"])
 
 
