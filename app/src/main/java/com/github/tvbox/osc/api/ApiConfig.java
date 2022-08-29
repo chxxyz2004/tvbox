@@ -45,6 +45,7 @@ import java.util.Map;
  * @date :2020/12/18
  * @description:
  */
+import com.undcover.freedom.pyramid.PythonLoader;
 public class ApiConfig {
     private static ApiConfig instance;
     private LinkedHashMap<String, SourceBean> sourceBeanList;
@@ -226,6 +227,7 @@ public class ApiConfig {
     }
 
     private void parseJson(String apiUrl, String jsonStr) {
+        PythonLoader.getInstance().setConfig(jsonStr);
         JsonObject infoJson = new Gson().fromJson(jsonStr, JsonObject.class);
         // spider
         spider = DefaultConfig.safeJsonString(infoJson, "spider", "");
@@ -399,10 +401,29 @@ public class ApiConfig {
     }
 
     public Spider getCSP(SourceBean sourceBean) {
+         if (sourceBean.getApi().startsWith("py_")) {
+        try {
+            return PythonLoader.getInstance().getSpider(sourceBean.getKey(), sourceBean.getExt());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new SpiderNull();
+        }
+    }
         return jarLoader.getSpider(sourceBean.getKey(), sourceBean.getApi(), sourceBean.getExt(), sourceBean.getJar());
     }
 
     public Object[] proxyLocal(Map param) {
+         try {
+        if(param.containsKey("api")){
+            String doStr = param.get("do").toString();
+            if(doStr.equals("ck"))
+                return PythonLoader.getInstance().proxyLocal("","",param);
+            SourceBean sourceBean = ApiConfig.get().getSource(doStr);
+            return PythonLoader.getInstance().proxyLocal(sourceBean.getKey(),sourceBean.getExt(),param);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
         return jarLoader.proxyInvoke(param);
     }
 
