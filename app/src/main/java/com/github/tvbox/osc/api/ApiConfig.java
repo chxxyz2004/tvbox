@@ -46,6 +46,7 @@ import java.util.Map;
  * @description:
  */
 import com.undcover.freedom.pyramid.PythonLoader;
+import com.github.catvod.crawler.SpiderNull;
 public class ApiConfig {
     private static ApiConfig instance;
     private LinkedHashMap<String, SourceBean> sourceBeanList;
